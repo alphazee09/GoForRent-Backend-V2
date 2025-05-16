@@ -29,7 +29,7 @@ The Go4Rent platform consists of a Laravel-based backend, a MySQL database, a RE
 - **Responsibilities:**
     - Persistent storage for all application data (users, equipment, rentals, contracts, payments, settings, etc.).
     - Ensuring data integrity and consistency through schema design and constraints.
-- **Schema:** As defined in [DataBase Schemaa](#database_schema.md).
+- **Schema:** As defined in [Database Schema](database_schema.md).
 
 #### 2.3. RESTful API
 - **Architecture:** REST
