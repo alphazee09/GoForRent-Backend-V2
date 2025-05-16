@@ -1,66 +1,173 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://go4rent.online" target="_blank"><img src="[https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg](https://cdn3.booqable.com/uploads/39176f8153d1d4dac5fb29055ab27971/company/logo/af540a37-10c4-4e5d-af9a-7ebb23019cb6/7009da5c-b754-4f0a-a798-4e3433c34959.png)" width="400" alt="Go4Rent Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Go4Rent - System Architecture
 
-## About Laravel
+This document outlines the system architecture for the Go4Rent platform.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 1. Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The Go4Rent platform consists of a Laravel-based backend, a MySQL database, a RESTful API for a Flutter mobile application, and a web-based Admin Dashboard. It integrates with several third-party services for payments, AI functionalities, push notifications, and email.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 2. Components
 
-## Learning Laravel
+#### 2.1. Laravel Backend (Core Application)
+- **Framework:** Laravel (latest stable version)
+- **Language:** PHP
+- **Responsibilities:**
+    - Business logic implementation for all features (user management, equipment, rentals, payments, contracts, AI interactions, admin functions, etc.).
+    - Serving the RESTful API for the mobile application.
+    - Serving the web interface for the Admin Dashboard.
+    - Managing database interactions (CRUD operations, queries).
+    - Handling authentication and authorization.
+    - Integrating with third-party services.
+    - Managing background jobs (e.g., sending emails, processing notifications, contract generation).
+    - Implementing multi-language support (English/Arabic).
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### 2.2. MySQL Database
+- **Type:** Relational Database (MySQL)
+- **Responsibilities:**
+    - Persistent storage for all application data (users, equipment, rentals, contracts, payments, settings, etc.).
+    - Ensuring data integrity and consistency through schema design and constraints.
+- **Schema:** As defined in `database_schema.md`.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+#### 2.3. RESTful API
+- **Architecture:** REST
+- **Format:** JSON
+- **Client:** Flutter Mobile Application
+- **Responsibilities:**
+    - Exposing backend functionalities to the mobile application.
+    - Handling requests from the mobile app and returning appropriate JSON responses.
+    - Ensuring API endpoints are optimized for mobile consumption (e.g., payload size, null handling).
+    - Implementing versioning if future major changes are anticipated (e.g., /api/v1/).
+- **Key API Modules (High-Level):**
+    - Authentication (Login, Signup, OTP, Password Reset)
+    - User Profile (CRUD, Verified Badge Request)
+    - Equipment (Browse, Search, Details, AI Recommendations, Ratings/Reviews)
+    - Rentals (Create, View History, Manage, Contract Signing via Barcode Scan)
+    - Payments (Thawani, Wire Transfer Upload, Reward Points)
+    - Contracts (View, Download PDF)
+    - Damage Reports (Create, View)
+    - Reward Points (View History, View Card)
+    - Banners (Fetch for display)
+    - General (e.g., fetching global settings like terms & conditions if needed by app)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### 2.4. Admin Dashboard (Web Interface)
+- **Type:** Web Application (served by Laravel)
+- **Templating:** Blade (Laravel's templating engine)
+- **Styling:** Custom CSS based on provided design guide (Teal, White, Dark Gray, Light Gray), modern, futuristic.
+- **Responsibilities:**
+    - Providing a comprehensive interface for administrators and staff to manage the platform.
+    - All functionalities listed in `AdminDahsboard.txt` and `Project.txt` (User Management, Staff Management, Equipment & Inventory, Rentals, Contracts, Payments, Damage Reports, Rewards, Reports, Global Settings, Push Notifications, Banners, Email/Notification Templates, Review Management).
+    - Multi-language UI support (English/Arabic), including RTL for Arabic.
 
-## Laravel Sponsors
+#### 2.5. Flutter Mobile Application (Client - Out of Scope for Backend Dev)
+- Interacts with the RESTful API.
+- Handles user interface and user experience for customers.
+- Implements features like barcode scanning, image capture for AI/damage reports.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Third-Party Integrations
 
-### Premium Partners
+#### 3.1. Thawani Payment Gateway
+- **Purpose:** Processing online payments.
+- **Integration:** Via Thawani E-commerce API.
+- **Flow:** Backend initiates payment, redirects/provides data to app for Thawani interface, receives callback for payment status.
+- **Configuration:** API keys stored securely in global settings.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+#### 3.2. AI Providers (OpenAI & DeepSeek)
+- **Purpose:** Equipment recognition, recommendations, and damage assessment.
+- **Integration:** Via their respective APIs.
+- **Flow:** Backend sends image/text data to AI API, receives analysis results.
+- **Configuration:** API keys stored securely in global settings.
 
-## Contributing
+#### 3.3. Firebase (Firebase Cloud Messaging - FCM)
+- **Purpose:** Sending push notifications to mobile app users.
+- **Integration:** Via Firebase Admin SDK (for backend) or FCM API.
+- **Flow:** Backend triggers notifications (e.g., marketing, rental updates) to specific users or topics.
+- **Configuration:** Firebase project credentials/server key stored securely in global settings.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### 3.4. Email Server (SMTP)
+- **Purpose:** Sending transactional emails (OTP, confirmations, notifications).
+- **Integration:** Laravel's built-in mail capabilities configured to use a specified SMTP server.
+- **Configuration:** SMTP host, port, username, password, encryption stored securely in global settings.
 
-## Code of Conduct
+### 4. Key Architectural Considerations
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### 4.1. Authentication & Authorization
+- **API:** JWT (JSON Web Tokens) or Laravel Sanctum for token-based authentication for the mobile API.
+- **Web Admin:** Laravel's session-based authentication.
+- **Roles & Permissions:** `spatie/laravel-permission` package to manage user roles (customer, admin, staff) and potentially granular permissions.
 
-## Security Vulnerabilities
+#### 4.2. Multi-Language Support (i18n & l10n)
+- **Database:** Translation tables for translatable model attributes (e.g., `equipment_translations`, `email_template_translations`) or JSON columns with a package like `spatie/laravel-translatable`.
+- **Laravel:** Laravel's localization features (language files for static text, middleware for setting locale).
+- **API:** Locale preference can be passed in request headers (e.g., `Accept-Language`) or as a user profile setting.
+- **Admin Dashboard:** UI elements and content to be translatable.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+#### 4.3. Barcode Generation & PDF Generation
+- **Barcode:** A PHP library (e.g., `milon/barcode` for Laravel) will be used to generate barcode images (Code 128 or QR) for equipment. These will be displayed in the app and potentially on contracts.
+- **PDF:** A PHP library (e.g., `barryvdh/laravel-dompdf` or `spatie/laravel-pdf`) for generating PDF contracts from HTML templates.
 
-## License
+#### 4.4. Background Jobs / Queues
+- **Purpose:** Offloading time-consuming tasks to improve application responsiveness (e.g., sending emails, push notifications, complex report generation, AI processing if it involves long waits).
+- **Implementation:** Laravel Queues with a driver like Redis or database.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### 4.5. Error Handling & Logging
+- **Laravel:** Built-in error handling and logging mechanisms.
+- **API:** Consistent error response formats (e.g., JSON with error codes and messages).
+
+#### 4.6. Security
+- Standard web application security practices (Input validation, XSS prevention, CSRF protection for web, SQL injection prevention via ORM).
+- Secure storage of API keys and sensitive credentials (Laravel's .env and config files, potentially encrypted).
+- HTTPS for all communications.
+
+#### 4.7. Scalability (Considerations for Future)
+- Stateless application design where possible to facilitate horizontal scaling.
+- Efficient database queries and indexing.
+- Use of caching (e.g., Redis) for frequently accessed data.
+
+### 5. Directory Structure (Illustrative - Standard Laravel)
+```
+go4rent_backend/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── Api/ (API Controllers)
+│   │   │   └── Admin/ (Admin Dashboard Controllers)
+│   │   ├── Middleware/
+│   │   └── Requests/ (Form Requests for validation)
+│   ├── Jobs/ (Background Jobs)
+│   ├── Mail/ (Mailable classes)
+│   ├── Models/ (Eloquent Models, including translation models or traits)
+│   ├── Notifications/ (Laravel Notifications)
+│   ├── Providers/
+│   ├── Services/ (Business logic services, e.g., PaymentService, AiService)
+│   └── ...
+├── config/ (Application configuration)
+├── database/
+│   ├── factories/
+│   ├── migrations/
+│   └── seeders/
+├── public/ (Web server root)
+├── resources/
+│   ├── lang/ (Language files for i18n)
+│   ├── js/ (Admin JS)
+│   ├── sass/ (Admin SASS)
+│   └── views/
+│       ├── admin/ (Admin dashboard Blade templates)
+│       ├── emails/ (Email Blade templates)
+│       └── pdf/ (PDF Blade templates for contracts)
+├── routes/
+│   ├── api.php (API routes)
+│   └── web.php (Web/Admin routes)
+├── storage/
+├── tests/
+└── ... (composer.json, .env, etc.)
+```
+
+### 6. Deployment (General)
+- Web server (e.g., Nginx, Apache) with PHP-FPM.
+- MySQL database server.
+- Queue worker process(es).
+- Scheduler (cron job for Laravel's scheduler).
+
+This architecture provides a solid foundation for building the Go4Rent platform, addressing all specified requirements and ensuring a maintainable and scalable system.
