@@ -164,10 +164,10 @@ go4rent_backend/
 └── ... (composer.json, .env, etc.)
 ```
 
-### 6. Deployment (General)
-- Web server (e.g., Nginx, Apache) with PHP-FPM.
+### 6. Deployment Serv
+- Web server (Apache) with PHP-FPM.
 - MySQL database server.
 - Queue worker process(es).
 - Scheduler (cron job for Laravel's scheduler).
 
-This architecture provides a solid foundation for building the Go4Rent platform, addressing all specified requirements and ensuring a maintainable and scalable system.
+This architecture provides a solid foundation for Go4Rent platform, addressing all specified requirements and ensuring a maintainable and scalable system.
