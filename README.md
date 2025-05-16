@@ -13,6 +13,7 @@ The Go4Rent platform consists of a Laravel-based backend, a MySQL database, a RE
 #### 2.1. Laravel Backend (Core Application)
 - **Framework:** Laravel (latest stable version)
 - **Language:** PHP
+- **Framework** Laravel
 - **Responsibilities:**
     - Business logic implementation for all features (user management, equipment, rentals, payments, contracts, AI interactions, admin functions, etc.).
     - Serving the RESTful API for the mobile application.
@@ -57,10 +58,10 @@ The Go4Rent platform consists of a Laravel-based backend, a MySQL database, a RE
 - **Styling:** Custom CSS based on provided design guide (Teal, White, Dark Gray, Light Gray), modern, futuristic.
 - **Responsibilities:**
     - Providing a comprehensive interface for administrators and staff to manage the platform.
-    - All functionalities listed in `AdminDahsboard.txt` and `Project.txt` (User Management, Staff Management, Equipment & Inventory, Rentals, Contracts, Payments, Damage Reports, Rewards, Reports, Global Settings, Push Notifications, Banners, Email/Notification Templates, Review Management).
+    - All functionalities listed in (User Management, Staff Management, Equipment & Inventory, Rentals, Contracts, Payments, Damage Reports, Rewards, Reports, Global Settings, Push Notifications, Banners, Email/Notification Templates, Review Management).
     - Multi-language UI support (English/Arabic), including RTL for Arabic.
 
-#### 2.5. Flutter Mobile Application (Client - Out of Scope for Backend Dev)
+#### 2.5. Flutter Mobile Application (Client - Part of the Scope for Backend Dev)
 - Interacts with the RESTful API.
 - Handles user interface and user experience for customers.
 - Implements features like barcode scanning, image capture for AI/damage reports.
