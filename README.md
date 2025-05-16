@@ -1,4 +1,4 @@
-<p align="center"><a href="https://go4rent.online" target="_blank"><img src="(https://cdn3.booqable.com/uploads/39176f8153d1d4dac5fb29055ab27971/company/logo/af540a37-10c4-4e5d-af9a-7ebb23019cb6/7009da5c-b754-4f0a-a798-4e3433c34959.png) width="400" alt="Go4Rent Logo"></a></p>
+![Go4Rent Logo](go4rnt.png)
 
 ## Go4Rent - System Architecture
 
